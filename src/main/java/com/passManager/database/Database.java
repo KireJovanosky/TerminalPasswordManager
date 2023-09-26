@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class Database {
 
-    private static final String DB_URL = "jdbc:sqlite:passwordDatabase.db";
+    public static final String DB_URL = "jdbc:sqlite:passwordDatabase.db";
 
     public void createTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -30,11 +30,9 @@ public class Database {
         }
     }
 
-    public String getPasswordBySite(String site) {
+    public String getPasswordByField(String field, String value) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT password FROM passwords WHERE site = ?")) {
-            stmt.setString(1, site);
+             PreparedStatement stmt = createPreparedStatementForField(conn, field, value)) {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("password");
@@ -45,35 +43,13 @@ public class Database {
         return null;
     }
 
-    public String getPasswordByTitle(String title) {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT password FROM passwords WHERE title = ?")) {
-            stmt.setString(1, title);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("password");
-
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting password: " + e.getMessage());
-        }
-        return null;
+    private PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
+        String query = "SELECT password FROM passwords WHERE " + field + " = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, value);
+        return stmt;
     }
 
-    public String getPasswordById(Integer id) {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
-             PreparedStatement stmt = conn.prepareStatement(
-                     "SELECT password FROM passwords WHERE id = ?")) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("password");
-            }
-        } catch (SQLException e) {
-            System.out.println("Error getting password: " + e.getMessage());
-        }
-        return null;
-    }
+
 
 }
