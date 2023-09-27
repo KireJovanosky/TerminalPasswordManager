@@ -10,17 +10,19 @@ public class EntityService {
     private Database database = new Database();
 
 
-
-    public void createNewEntity (PasswordEntity passwordEntity){
+    public void createNewEntity(PasswordEntity passwordEntity) {
         String site = passwordEntity.getSite();
         String title = passwordEntity.getTitle();
         Integer strong = passwordEntity.isStrong();
 
-        if (passwordEntity.isStrong() == 1){
-            String password = passwordGenerator.generatePassword(16);
-            database.saveEntity(site, title, strong, password);
+        String password;
+
+        if (passwordEntity.isStrong() == 1) {
+            password = passwordGenerator.generatePassword(16);
+        } else {
+            password = passwordGenerator.generatePassword(8);
         }
-        String password = passwordGenerator.generatePassword(8);
+
         database.saveEntity(site, title, strong, password);
     }
 

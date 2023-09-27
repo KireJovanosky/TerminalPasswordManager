@@ -1,23 +1,60 @@
 package com.passManagerTest.serviceTest;
 
 import com.passManager.service.PasswordGenerator;
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PasswordGeneratorTest {
 
-    private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:',./?`~";
+    private PasswordGenerator passwordGenerator;
+
+    @Before
+    public void setUp() {
+        passwordGenerator = new PasswordGenerator();
+    }
 
     @Test
     public void testGeneratePassword() {
-        PasswordGenerator passwordGenerator = new PasswordGenerator();
 
-        // Test for length 0
-        assertEquals(8, passwordGenerator.generatePassword(8).length());
+        // Test for length 8 - note the length is after encryption (encryption/decryption is tested below)
+        assertEquals(24, passwordGenerator.generatePassword(8).length());
 
-        // Test for length 1
-        assertEquals(16, passwordGenerator.generatePassword(16).length());
+        // Test for length 16 - note the length is after encryption (encryption/decryption is tested below)
+        assertEquals(44, passwordGenerator.generatePassword(16).length());
+    }
 
+    @Test
+    public void testUserDefinedPassword() {
+        // Test user-defined password encryption
+        String originalPassword = "MySecretPassword";
+        String encryptedPassword = passwordGenerator.userDefinedPassword(originalPassword);
+
+        assertNotNull(encryptedPassword);
+        assertNotEquals(originalPassword, encryptedPassword);
+    }
+
+    @Test
+    public void testEncryptAndDecrypt() {
+        String originalText = "This is a secret message";
+        String secretKey = "SecretKey123";
+
+        // Encrypt
+        String encryptedText = PasswordGenerator.encrypt(originalText, secretKey);
+
+        assertNotNull(encryptedText);
+
+        // Decrypt
+        String decryptedText = PasswordGenerator.decrypt(encryptedText, secretKey);
+
+        assertNotNull(decryptedText);
+        assertEquals(originalText, decryptedText);
+
+        // Test with invalid secret key
+        String invalidKey = "InvalidKey456";
+        String decryptedWithInvalidKey = PasswordGenerator.decrypt(encryptedText, invalidKey);
+
+        assertNull(decryptedWithInvalidKey);
     }
 }
