@@ -44,11 +44,31 @@ public class Database {
     }
 
     private PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
-        String query = "SELECT password FROM passwords WHERE " + field + " = ?";
+        String query;
+        if ("id".equals(field)) {
+            // Check if value is a valid integer
+            try {
+                int idValue = Integer.parseInt(value);
+                query = "SELECT password FROM passwords WHERE " + field + " = ?";
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid value for 'id': " + value + " is not a valid integer.");
+            }
+        } else {
+            query = "SELECT password FROM passwords WHERE " + field + " = ?";
+        }
+
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setString(1, value);
         return stmt;
     }
+
+
+//    private PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
+//        String query = "SELECT password FROM passwords WHERE " + field + " = ?";
+//        PreparedStatement stmt = conn.prepareStatement(query);
+//        stmt.setString(1, value);
+//        return stmt;
+//    }
 
 
 

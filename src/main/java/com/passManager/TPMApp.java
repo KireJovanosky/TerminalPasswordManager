@@ -17,9 +17,9 @@ public class TPMApp {
 //        PasswordEntity entity1 = new PasswordEntity("google2", "google-pass2", 0);
 //        entityService.createNewEntity(entity1);
 
-        System.out.println(database.getPasswordByField("title","google"));
-        System.out.println(database.getPasswordByField("site","google-pass1"));
-        System.out.println(database.getPasswordByField("id","12"));
+        System.out.println(database.getPasswordByField("title","Example"));
+        System.out.println(database.getPasswordByField("site","example.com"));
+        System.out.println(database.getPasswordByField("id","aad"));
 
     }
 
