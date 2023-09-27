@@ -1,16 +1,14 @@
 package com.passManagerTest.databaseTest;
 
 import com.passManager.database.Database;
-import org.testng.annotations.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.testng.annotations.AfterClass;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -18,6 +16,7 @@ import static org.junit.Assert.assertNull;
 public class DatabaseTest {
 
     private static Database database;
+    private Connection connectionMock;
 
     @BeforeClass
     public static void setUpClass() {
@@ -25,7 +24,10 @@ public class DatabaseTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp()  throws SQLException {
+
+        connectionMock = Mockito.mock(Connection.class);
+
         // Clear the database table before each test
         try (Connection conn = DriverManager.getConnection(Database.DB_URL);
              Statement stmt = conn.createStatement()) {
@@ -72,9 +74,18 @@ public class DatabaseTest {
         String password = database.getPasswordByField("site", "example.com");
         assertEquals("securePassword", password);
 
-        // Test retrieving a password that does not exist
+        // Test retrieving a password from site that does not exist
         String nonExistentPassword = database.getPasswordByField("site", "nonexistent.com");
         assertNull(nonExistentPassword);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreatePreparedStatementForIdFieldWithInvalidInteger() throws SQLException {
+        String field = "id";
+        String value = "invalid_id";
+
+        // This should throw an IllegalArgumentException
+        database.createPreparedStatementForField(connectionMock, field, value);
     }
 }
 

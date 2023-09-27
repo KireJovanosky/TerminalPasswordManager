@@ -43,7 +43,7 @@ public class Database {
         return null;
     }
 
-    private PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
+    public PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
         String query;
         if ("id".equals(field)) {
             // Check if value is a valid integer
@@ -62,7 +62,7 @@ public class Database {
         return stmt;
     }
 
-
+// In case we want the method to return null instead of exception
 //    private PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
 //        String query = "SELECT password FROM passwords WHERE " + field + " = ?";
 //        PreparedStatement stmt = conn.prepareStatement(query);
