@@ -35,6 +35,10 @@ public class PasswordGenerator {
 
     public String userDefinedPassword(String password) {
         String encryptedPassword = null;
+        if((password == null) || (password.length()) < 6) {
+            System.out.println("Please enter password 6 characters or longer");
+            return null;
+        }
         encryptedPassword = encrypt(password, KEY_VALUE);
         return encryptedPassword;
     }

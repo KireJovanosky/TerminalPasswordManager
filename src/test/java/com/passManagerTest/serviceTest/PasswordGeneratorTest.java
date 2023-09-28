@@ -26,13 +26,31 @@ public class PasswordGeneratorTest {
     }
 
     @Test
-    public void testUserDefinedPassword() {
-        // Test user-defined password encryption
-        String originalPassword = "MySecretPassword";
+    public void testUserDefinedPasswordValid() {
+        // Test user-defined password encryption with a valid password
+        String originalPassword = "ValidPass123";
         String encryptedPassword = passwordGenerator.userDefinedPassword(originalPassword);
 
         assertNotNull(encryptedPassword);
         assertNotEquals(originalPassword, encryptedPassword);
+    }
+
+    @Test
+    public void testUserDefinedPasswordNull() {
+        // Test user-defined password encryption with a null password
+        String originalPassword = null;
+        String encryptedPassword = passwordGenerator.userDefinedPassword(originalPassword);
+
+        assertNull(encryptedPassword);
+    }
+
+    @Test
+    public void testUserDefinedPasswordShort() {
+        // Test user-defined password encryption with a short password
+        String originalPassword = "Short";
+        String encryptedPassword = passwordGenerator.userDefinedPassword(originalPassword);
+
+        assertNull(encryptedPassword);
     }
 
     @Test
