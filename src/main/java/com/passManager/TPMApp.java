@@ -23,9 +23,9 @@ public class TPMApp {
 //        System.out.println(database.getPasswordByField("site","example.com"));
 //        System.out.println(database.getPasswordByField("id","14"));
 
-//        System.out.println(PasswordGenerator.decrypt(database.getPasswordByField("title","google4"), "ExampleString@"));
+        System.out.println(PasswordGenerator.decrypt(database.getPasswordByField("title","google4"), "ExampleString@"));
 
-        passwordGenerator.userDefinedPassword("examplePass@");
+        System.out.println(passwordGenerator.userDefinedPassword("examplePass@"));
 
 
     }

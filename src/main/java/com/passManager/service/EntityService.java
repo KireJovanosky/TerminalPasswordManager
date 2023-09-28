@@ -26,6 +26,20 @@ public class EntityService {
         database.saveEntity(site, title, strong, password);
     }
 
+    public void CreateNewEntityWithCustomPass(PasswordEntity passwordEntity) {
+        String site = passwordEntity.getSite();
+        String title = passwordEntity.getTitle();
+        int strong = 2;
+        String password = passwordEntity.getPassword();
+        if ((password == null) || (password.length()) < 6) {
+            System.out.println("Please enter password 6 characters or longer");
+        } else {
+            String encryptedPassword;
+            encryptedPassword = passwordGenerator.userDefinedPassword(password);
+            database.saveEntity(site, title, strong, encryptedPassword);
+        }
+    }
+
     public PasswordGenerator getPasswordGenerator() {
         return passwordGenerator;
     }
