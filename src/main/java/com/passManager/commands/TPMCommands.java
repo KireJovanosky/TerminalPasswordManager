@@ -22,7 +22,7 @@ public class TPMCommands implements Callable<Integer> {
 
 
     public static void main(String[] args) {
-       int exitStatus = new CommandLine(new TPMCommands()).execute("save", "-s=github.com/login2", "-t=git2", "--strong=1");
+       int exitStatus = new CommandLine(new TPMCommands()).execute("save", "-s=github.com/login2", "-t=git2", "-c");
        System.exit(exitStatus);
     }
 

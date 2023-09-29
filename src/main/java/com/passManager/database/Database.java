@@ -6,6 +6,14 @@ public class Database {
 
     public static final String DB_URL = "jdbc:sqlite:passwordDatabase.db";
 
+    public Database (){
+        try {
+            Class.forName("org.sqlite.JDBC").getConstructor().newInstance();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createTable() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(
@@ -14,6 +22,7 @@ public class Database {
         } catch (SQLException e) {
             System.out.println("Error creating table: " + e.getMessage());
         }
+
     }
 
     public void saveEntity(String site, String title, Integer strong, String password) {

@@ -40,6 +40,8 @@ public class CreateNewEntityCommand implements Callable<Integer> {
     @CommandLine.Option(
             names = {"-c", "--custom"},
             required = false,
+            interactive = true,
+            echo = false,
             description = "enter desired password",
             paramLabel = "<custom password>")
     String customPass;

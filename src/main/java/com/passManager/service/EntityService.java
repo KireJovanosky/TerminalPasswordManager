@@ -24,6 +24,7 @@ public class EntityService {
         }
 
         database.saveEntity(site, title, strong, password);
+
     }
 
     public void CreateNewEntityWithCustomPass(PasswordEntity passwordEntity) {
