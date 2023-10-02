@@ -21,21 +21,21 @@ public class CreateNewEntityCommand implements Callable<Integer> {
             required = true,
             description = "web address of the login site",
             paramLabel = "<site name>")
-    String site;
+    private String site;
 
     @CommandLine.Option(
             names = {"-t", "--title"},
             required = true,
             description = "easy to remember title",
             paramLabel = "<title>")
-    String title;
+    private String title;
 
     @CommandLine.Option(
             names = "--strong",
             required = false,
             description = "enter 1 for strong(16 character) password and 0 for weaker(8 character) password",
             paramLabel = "<isStrong>")
-    Integer strong;
+    private Integer strong;
 
     @CommandLine.Option(
             names = {"-c", "--custom"},
@@ -44,7 +44,7 @@ public class CreateNewEntityCommand implements Callable<Integer> {
             echo = false,
             description = "enter desired password",
             paramLabel = "<custom password>")
-    String customPass;
+    private String customPass;
 
 
     @Override
@@ -75,8 +75,38 @@ public class CreateNewEntityCommand implements Callable<Integer> {
             passwordEntity.setStrong(0);
             entityService.createNewEntity(passwordEntity);
         }
-
-
         return 0;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer isStrong() {
+        return strong;
+    }
+
+    public void setStrong(Integer strong) {
+        this.strong = strong;
+    }
+
+    public String getCustomPass() {
+        return customPass;
+    }
+
+    public void setCustomPass(String customPass) {
+        this.customPass = customPass;
     }
 }
