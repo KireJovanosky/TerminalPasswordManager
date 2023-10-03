@@ -41,6 +41,10 @@ public class EntityService {
         }
     }
 
+    public void deleteEntity (String field, String value) {
+        database.deletePasswordByField(field, value);
+    }
+
     public PasswordGenerator getPasswordGenerator() {
         return passwordGenerator;
     }

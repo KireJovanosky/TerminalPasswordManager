@@ -2,6 +2,7 @@ package com.passManager.commands;
 
 
 import com.passManager.commands.sub.CreateNewEntityCommand;
+import com.passManager.commands.sub.DeleteEntityCommand;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -14,16 +15,19 @@ import java.util.concurrent.Callable;
         optionListHeading = "%nPlease choose one of the following options:%n",
         commandListHeading = "%nSubcommands are: %n",
         subcommands = {
-            CreateNewEntityCommand.class
+            CreateNewEntityCommand.class,
+            DeleteEntityCommand.class
         })
 public class TPMCommands implements Callable<Integer> {
     final Integer SUCCESS = 0;
     final Integer FAILURE = 1;
+    private String method;
 
 
     public static void main(String[] args) {
-       int exitStatus = new CommandLine(new TPMCommands()).execute("save", "-s=github.com/login2", "-t=git2", "-c");
-       System.exit(exitStatus);
+        CommandLine commandLine = new CommandLine(new TPMCommands());
+        int exitStatus = commandLine.execute("delete", "-t=git");
+        System.exit(exitStatus);
     }
 
 

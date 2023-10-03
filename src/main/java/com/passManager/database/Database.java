@@ -79,6 +79,39 @@ public class Database {
 //        return stmt;
 //    }
 
+    public void deletePasswordByField(String field, String value) {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = createPreparedStatementForDeletingField(conn, field, value)) {
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Password record deleted");
+            } else {
+                System.out.println("Password record not found");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error deleting password record: " + e.getMessage());
+        }
+    }
+
+    public PreparedStatement createPreparedStatementForDeletingField(Connection conn, String field, String value) throws SQLException {
+        String query;
+        if ("id".equals(field)) {
+            // Check if value is a valid integer
+            try {
+                int idValue = Integer.parseInt(value);
+                query = "DELETE FROM passwords WHERE " + field + " = ?";
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Invalid value for 'id': " + value + " is not a valid integer.");
+            }
+        } else {
+            query = "DELETE FROM passwords WHERE " + field + " = ?";
+        }
+
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setString(1, value);
+        return stmt;
+    }
+
 
 
 }

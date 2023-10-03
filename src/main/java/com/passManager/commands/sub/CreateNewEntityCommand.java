@@ -46,7 +46,6 @@ public class CreateNewEntityCommand implements Callable<Integer> {
             paramLabel = "<custom password>")
     private String customPass;
 
-
     @Override
     public Integer call() throws Exception {
         if (strong != null && customPass != null) {
@@ -55,21 +54,21 @@ public class CreateNewEntityCommand implements Callable<Integer> {
             return 1;
         }
 
-        if (strong != null) {
+        if (strong != null && customPass == null) {
             passwordEntity.setSite(site);
             passwordEntity.setTitle(title);
             passwordEntity.setStrong(strong);
             entityService.createNewEntity(passwordEntity);
         }
 
-        if (customPass != null) {
+        if (customPass != null && strong == null) {
             passwordEntity.setSite(site);
             passwordEntity.setTitle(title);
             passwordEntity.setPassword(customPass);
             entityService.CreateNewEntityWithCustomPass(passwordEntity);
         }
 
-        if (strong == null) {
+        if (strong == null && customPass == null) {
             passwordEntity.setSite(site);
             passwordEntity.setTitle(title);
             passwordEntity.setStrong(0);
