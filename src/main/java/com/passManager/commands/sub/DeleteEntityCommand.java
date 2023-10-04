@@ -17,7 +17,7 @@ public class DeleteEntityCommand implements Callable<Integer> {
     private String value;
 
     PasswordEntity passwordEntity = new PasswordEntity();
-    EntityService entityService = new EntityService();
+    public EntityService entityService = new EntityService();
 
 
     @CommandLine.Option(
@@ -42,7 +42,7 @@ public class DeleteEntityCommand implements Callable<Integer> {
     private Integer id;
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         if (site != null && title == null && id == null) {
             entityService.deleteEntity("site", site);
         } else if (title != null && site == null && id == null) {
@@ -53,7 +53,6 @@ public class DeleteEntityCommand implements Callable<Integer> {
             System.out.println("Please choose only one field type to delete a password record");
             return 1;
         }
-
         return 0;
     }
 
@@ -73,11 +72,11 @@ public class DeleteEntityCommand implements Callable<Integer> {
         this.title = title;
     }
 
-    public Integer isStrong() {
+    public Integer getId() {
         return id;
     }
 
-    public void setStrong(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

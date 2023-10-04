@@ -26,9 +26,12 @@ public class TPMCommands implements Callable<Integer> {
 
     public static void main(String[] args) {
         CommandLine commandLine = new CommandLine(new TPMCommands());
-        int exitStatus = commandLine.execute("delete", "-t=git");
+        int exitStatus = commandLine.execute("delete");
         System.exit(exitStatus);
     }
+    //TODO: add test for delete
+    //TODO: add change password
+    //TODO: add tests for update
 
 
     @Override
