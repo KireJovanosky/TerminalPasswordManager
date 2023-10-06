@@ -46,6 +46,7 @@ public class Database {
             if (rs.next()) {
                 return rs.getString("password");
             }
+            System.out.println("Password not found");
         } catch (SQLException e) {
             System.out.println("Error getting password: " + e.getMessage());
         }
@@ -71,7 +72,7 @@ public class Database {
         return stmt;
     }
 
-// In case we want the method to return null instead of exception
+// In case it is decided the method to return null instead of exception
 //    private PreparedStatement createPreparedStatementForField(Connection conn, String field, String value) throws SQLException {
 //        String query = "SELECT password FROM passwords WHERE " + field + " = ?";
 //        PreparedStatement stmt = conn.prepareStatement(query);

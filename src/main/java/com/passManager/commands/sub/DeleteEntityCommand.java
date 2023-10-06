@@ -1,6 +1,5 @@
 package com.passManager.commands.sub;
 
-import com.passManager.entity.PasswordEntity;
 import com.passManager.service.EntityService;
 import picocli.CommandLine;
 
@@ -13,10 +12,6 @@ import java.util.concurrent.Callable;
         optionListHeading = "%nPlease choose one of the following options to delete a record:%n")
 public class DeleteEntityCommand implements Callable<Integer> {
 
-    private String field;
-    private String value;
-
-    PasswordEntity passwordEntity = new PasswordEntity();
     public EntityService entityService = new EntityService();
 
 

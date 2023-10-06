@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.testng.AssertJUnit.assertNull;
 
 class EntityServiceTest {
 
@@ -23,6 +24,7 @@ class EntityServiceTest {
         database = mock(Database.class);
         entityService.setPasswordGenerator(passwordGenerator);
         entityService.setDatabase(database);
+        PasswordGenerator.setKey256Bit("ExampleString@");
     }
 
     @Test
@@ -94,4 +96,48 @@ class EntityServiceTest {
         // Assert
         assertEquals(newDatabase, entityService.getDatabase());
     }
+
+    @Test
+    public void testCreateNewEntityWithCustomPassword() {
+        PasswordEntity passwordEntity = new PasswordEntity("Example", "example.com", 2);
+        String customPassword = "custom_password";
+        passwordEntity.setPassword(customPassword);
+        when(passwordGenerator.userDefinedPassword(customPassword)).thenReturn(customPassword);
+        entityService.createNewEntityWithCustomPass(passwordEntity);
+
+        // Verify that the entity is saved successfully
+        verify(database).saveEntity("example.com", "Example", 2, customPassword);
+    }
+
+    @Test
+    public void testCreateNewEntityWithInvalidCustomPassword() {
+        PasswordEntity passwordEntity = new PasswordEntity("Example", "example.com", 2);
+        String customPassword = "short";
+        passwordEntity.setPassword(customPassword);
+        when(passwordGenerator.userDefinedPassword(customPassword)).thenReturn(customPassword);
+        entityService.createNewEntityWithCustomPass(passwordEntity);
+
+        // Expect a message in the console since the password is too short
+    }
+
+    @Test
+    void getPasswordEntity_invalidFieldAndValue_shouldReturnNull() {
+        // Arrange
+        String field = "invalid_field";
+        String value = "invalid_value";
+        when(database.getPasswordByField(field, value)).thenReturn(null);
+
+        // Act
+        String result = entityService.getPasswordEntity(field, value);
+
+        // Assert
+        assertNull(result);
+    }   
+
+
+
+
+
+
+
 }

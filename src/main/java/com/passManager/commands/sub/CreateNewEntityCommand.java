@@ -65,7 +65,7 @@ public class CreateNewEntityCommand implements Callable<Integer> {
             passwordEntity.setSite(site);
             passwordEntity.setTitle(title);
             passwordEntity.setPassword(customPass);
-            entityService.CreateNewEntityWithCustomPass(passwordEntity);
+            entityService.createNewEntityWithCustomPass(passwordEntity);
         }
 
         if (strong == null && customPass == null) {

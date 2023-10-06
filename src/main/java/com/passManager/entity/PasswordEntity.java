@@ -12,7 +12,6 @@ public class PasswordEntity {
         this.title = title;
         this.site = site;
         this.strong = strong;
-
     }
 
     public PasswordEntity() {

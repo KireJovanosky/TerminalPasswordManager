@@ -3,6 +3,7 @@ package com.passManager.commands;
 
 import com.passManager.commands.sub.CreateNewEntityCommand;
 import com.passManager.commands.sub.DeleteEntityCommand;
+import com.passManager.commands.sub.GetPasswordEntityCommand;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -16,27 +17,20 @@ import java.util.concurrent.Callable;
         commandListHeading = "%nSubcommands are: %n",
         subcommands = {
             CreateNewEntityCommand.class,
-            DeleteEntityCommand.class
+            DeleteEntityCommand.class,
+            GetPasswordEntityCommand.class
         })
 public class TPMCommands implements Callable<Integer> {
-    final Integer SUCCESS = 0;
-    final Integer FAILURE = 1;
-    private String method;
-
 
     public static void main(String[] args) {
         CommandLine commandLine = new CommandLine(new TPMCommands());
-        int exitStatus = commandLine.execute("delete");
+        int exitStatus = commandLine.execute("get", "--id=152");
         System.exit(exitStatus);
     }
-    //TODO: add test for delete
-    //TODO: add change password
-    //TODO: add tests for update
-
+    //TODO: retrieve password into clipboard and tests
 
     @Override
     public Integer call() throws Exception {
-        System.out.println("[TPM] test");
-        return SUCCESS;
+        return 0;
     }
 }

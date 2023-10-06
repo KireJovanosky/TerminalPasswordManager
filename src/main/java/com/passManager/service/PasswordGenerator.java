@@ -14,7 +14,7 @@ import static java.lang.String.valueOf;
 public class PasswordGenerator {
 
     private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{};:',./?`~";
-    private static final String KEY_VALUE = "ExampleString@";
+    private final String keyValue = "ExampleString@";
 
     private static SecretKeySpec secretKey;
     private static byte[] key;
@@ -29,13 +29,21 @@ public class PasswordGenerator {
             int index = random.nextInt(CHAR_POOL.length());
             password = valueOf(passwordBuilder.append(CHAR_POOL.charAt(index)));
         }
-         encryptedPassword = encrypt(password, setKey256Bit(KEY_VALUE));
+         encryptedPassword = encrypt(password, setKey256Bit(keyValue));
+
+         // Clear the unencrypted password from memory
+         Arrays.fill(password.toCharArray(), '\0');
+
          return encryptedPassword;
     }
 
     public String userDefinedPassword(String password) {
         String encryptedPassword = null;
-            encryptedPassword = encrypt(password, KEY_VALUE);
+            encryptedPassword = encrypt(password, keyValue);
+
+            // Clear the unencrypted password from memory
+            Arrays.fill(password.toCharArray(), '\0');
+
             return encryptedPassword;
     }
 
@@ -69,7 +77,7 @@ public class PasswordGenerator {
 
     public static String encrypt(final String strToEncrypt, final String secret) {
         try {
-            setKey128Bit(secret);
+            setKey256Bit(secret);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
@@ -80,17 +88,20 @@ public class PasswordGenerator {
     }
 
     public static String decrypt(final String strToDecrypt, final String secret) {
-        try {
-            setKey128Bit(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        } catch (Exception e) {
-            System.out.println("Error while decrypting: " + e);
+        if (strToDecrypt != null) {
+            try {
+                setKey256Bit(secret);
+                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+                cipher.init(Cipher.DECRYPT_MODE, secretKey);
+                return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+            } catch (Exception e) {
+                System.out.println("Error while decrypting: " + e);
+            }
         }
         return null;
     }
 
-
-
+    public String getKeyValue() {
+        return keyValue;
+    }
 }
