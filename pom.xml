@@ -110,7 +110,7 @@
                             <minimizeJar>true</minimizeJar>
                             <filters>
                                 <filter>
-                                    <artifact>*:*</artifact>
+                                    <artifact>com.passManager:terminalPassManager</artifact>
                                     <excludes>
                                         <exclude>META-INF/*.SF</exclude>
                                         <exclude>META-INF/*.DSA</exclude>

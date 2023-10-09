@@ -8,14 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
-import static org.testng.AssertJUnit.assertNull;
 
 class EntityServiceTest {
 
     private EntityService entityService;
     private PasswordGenerator passwordGenerator;
     private Database database;
+    private EntityService entityServiceObj;
 
     @BeforeEach
     void setUp() {
@@ -25,6 +26,7 @@ class EntityServiceTest {
         entityService.setPasswordGenerator(passwordGenerator);
         entityService.setDatabase(database);
         PasswordGenerator.setKey256Bit("ExampleString@");
+        entityServiceObj = new EntityService();
     }
 
     @Test
@@ -132,9 +134,77 @@ class EntityServiceTest {
 
         // Assert
         assertNull(result);
-    }   
+    }
 
+    @Test
+    void getPasswordEntityTest() {
+        // Arrange
+        String site = "example.com";
+        String title = "Test Site";
+        String customPassword = "custompassword";
+        int strong = 2;
+        String encryptedPassword;
+        encryptedPassword = passwordGenerator.userDefinedPassword(customPassword);
+        database.saveEntity(site, title, strong, encryptedPassword);
 
+        // Act
+        String decryptedPassword = entityServiceObj.getPasswordEntity("title", "TestSite");
+
+        // Assert
+        assertEquals("custompassword", decryptedPassword);
+    }
+
+    @Test
+    void getPasswordEntityTestAndCopyToClipboard() {
+        // Arrange
+        String site = "example.com";
+        String title = "Test Site";
+        String customPassword = "example_custom_pass";
+        int strong = 2;
+        String password = customPassword;
+        String encryptedPassword;
+        encryptedPassword = passwordGenerator.userDefinedPassword(password);
+        database.saveEntity(site, title, strong, encryptedPassword);
+
+        // Act
+        String decryptedPassword = entityServiceObj.getPasswordEntityAndCopyToClipboard("title", "TestSite");
+
+        // Assert
+        // Pasted password from the clipboard should match: "example_custom_pass"
+
+    }
+
+    @Test
+    void getPasswordEntityTestAndCopyToClipboard_PasswordNotFound() {
+        // Arrange
+        String site = "example.com";
+        String title = "Test Site";
+        String customPassword = "example_custom_pass";
+        int strong = 2;
+        String password = customPassword;
+        String encryptedPassword;
+        encryptedPassword = passwordGenerator.userDefinedPassword(password);
+        database.saveEntity(site, title, strong, encryptedPassword);
+
+        // Act
+        String decryptedPassword = entityServiceObj.getPasswordEntityAndCopyToClipboard("title", "Non-existent");
+
+        // Assert
+        assertNull(decryptedPassword);
+
+    }
+
+    @Test
+    void deleteEntity() {
+        // Create a test entity in the database
+        entityService.createNewEntity(new PasswordEntity("Delete Test Site", "Delete Test Title", 1));
+
+        // Call deleteEntity method
+        entityService.deleteEntity("site", "Delete Test Site");
+
+        // Verify that the entity is deleted from the database
+        assertNull(entityService.getPasswordEntity("site", "Delete Test Site"));
+    }
 
 
 

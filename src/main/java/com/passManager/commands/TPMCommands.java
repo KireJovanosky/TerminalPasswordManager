@@ -24,10 +24,10 @@ public class TPMCommands implements Callable<Integer> {
 
     public static void main(String[] args) {
         CommandLine commandLine = new CommandLine(new TPMCommands());
-        int exitStatus = commandLine.execute("get", "--id=152");
+        int exitStatus = commandLine.execute(args);
         System.exit(exitStatus);
     }
-    //TODO: retrieve password into clipboard and tests
+    //TODO: remaining test to be coded
 
     @Override
     public Integer call() throws Exception {
