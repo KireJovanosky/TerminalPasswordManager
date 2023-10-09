@@ -22,19 +22,31 @@ Commands:
 	
 save = activates the save new password subcommand;
 	-s or --site = (-s=example.com), sets the site;	
+ 
 	-t or --title = (-t=example), sets the title;	
+ 
 	--strong = (--strong=1), 1 for 16 random 16 character "strong" password, 0 for 8 character random "weak" password	
+ 
 	-c or --custom = (-c=customPassword), set custom password	
+ 
 	
 get = activates the get password subcommand;	
+
 	-s or --site = (-s=example.com) will retrieve password by site;	
+ 
 	-t or --title = (-t=example) will retrieve password by title;	
+ 
 	--id = (--id=8) will retrieve password by id;	
+ 
 	
 delete = activates the delete password subcommand;	
+
 	-s or --site = (-s=example.com) will delete password by site;	
+ 
 	-t or --title = (-t=example) will delete password by title;	
+ 
 	--id = (--id=8) will delete password by id;	
+ 
 	
 Example uses:	
 
