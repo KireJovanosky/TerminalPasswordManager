@@ -16,6 +16,7 @@ Password Generation:
 The app can generate strong or weak passwords or a user defined password based on user preferences.
 
 Commands:	
+
 -h or --help = shows help message with avialable option and commands;	
 -V = shows the verison of the application;	
 	
@@ -36,6 +37,7 @@ delete = activates the delete password subcommand;
 	--id = (--id=8) will delete password by id;
 	
 Example uses:	
+
 save -s=testSite -t=testTitle = will save random generated password with 8 characters with given "site" and "title"
 	
 save -s=testSiteStrong -t=testTitleStrong --strong=1 = will save random generated password with 16 characters with given "site" and "title"
@@ -55,6 +57,7 @@ delete -t=testTitle = will delete password with title value = "testTitle"
 delete --id=8 = will delete password with id value = 8
 	
 Note:  
+
 Please take in consideration that this project is in its beginning phase and its development is ongoing. All newly developed features and other changes will be commited to this repository after being finished.
 	
 You can find built .jar file for testing in the out/ directory.
