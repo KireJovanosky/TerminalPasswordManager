@@ -18,10 +18,12 @@ The app can generate strong or weak passwords or a user defined password based o
 Commands:	
 
 -h or --help = shows help message with avialable option and commands;	
+
 -V = shows the verison of the application;	
 	
-save = activates the save new password subcommand;
-	-s or --site = (-s=example.com), sets the site;	
+save = activates the save new password subcommand;	
+
+	-s or --site = (-s=example.com), sets the site;		
  
 	-t or --title = (-t=example), sets the title;	
  
